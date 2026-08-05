@@ -1,0 +1,323 @@
+<!--
+  ═══════════════════════════════════════════════════════════════════════════
+  THE SMS SECTIONS, TAKEN OUT OF THE LIVE DOCUMENTS FOR v1
+  ═══════════════════════════════════════════════════════════════════════════
+
+  This file is not a page. It is the text that was removed from privacy.html,
+  terms.html and index.html when the accountability text was switched off for
+  v1, kept verbatim so it can go back exactly as it was rather than be written
+  again from memory.
+
+  WHY IT IS IN A FOLDER CALLED `_v2`. GitHub Pages runs Jekyll on this repo,
+  and Jekyll does not copy directories whose names begin with an underscore
+  into the built site. So this file is in the repository and in git, but it is
+  not served at any URL, which is the point: the whole reason the text came out
+  is that nothing a reviewer or a user can reach may describe a feature that is
+  not in the build. If a `.nojekyll` file is ever added at the repo root, that
+  protection goes away and this file starts being served. Move it out of the
+  repo at that point.
+
+  WHY THE TEXT CAME OUT AT ALL. Everything below describes the accountability
+  text: one SMS to a person the user nominated. `CONSEQ/Features.swift` in the
+  app repository has it behind `Features.accountabilityText = false`, because
+  the A2P 10DLC campaign the traffic is registered under is not approved yet.
+  The documents had previously been edited to *scope* this language as coming
+  in a later version. That was reversed: for v1 these documents describe only
+  what the app does today.
+
+  ───────────────────────────────────────────────────────────────────────────
+  HOW TO PUT IT BACK
+  ───────────────────────────────────────────────────────────────────────────
+
+  The whole removal is one commit, so the fastest route is the diff:
+
+      git log --oneline -- privacy.html terms.html index.html
+      git show <the "Remove the SMS from the v1 documents" commit>
+
+  and revert it, or cherry pick the parts you want. This file is the same
+  content in readable form, for when the history has moved on and a straight
+  revert would fight later edits.
+
+  Four things to do at the same time, none of which this file can do for you:
+
+    1. Flip `Features.accountabilityText` to true in the app repository, or
+       the documents describe a feature the shipped app does not have, which
+       is the same mistake pointing the other way.
+    2. Restore the two removed `<dict>` entries in
+       `CONSEQ/PrivacyInfo.xcprivacy`, and move the App Store Connect privacy
+       questionnaire from "No" to "Yes" in the same sitting. That file has its
+       own restore notes at the bottom.
+    3. Restore `NSContactsUsageDescription` in the app's `Info.plist` only if
+       the app has started reading contacts itself. The system contact picker
+       runs out of process and needs no permission. The `Info.plist` comment
+       explains this.
+    4. Put the wording back exactly. Several of these paragraphs are not prose
+       choices, they are compliance text: the "no mobile information is
+       shared or sold" sentence in particular is required almost word for word
+       by CTIA section 5.2.1 and by carrier campaign vetting.
+
+  ───────────────────────────────────────────────────────────────────────────
+  ⚠️ THE ONE THING TO READ BEFORE ASSUMING THIS WAS SAFE
+  ───────────────────────────────────────────────────────────────────────────
+
+  `opt-in.html` was deliberately left untouched, because it is evidence for a
+  10DLC campaign that is mid registration. But that page hands vetters
+  `privacy.html` as the campaign's privacy policy, and `privacy.html` no
+  longer says a word about SMS. Carriers and Twilio's own vetting expect the
+  linked privacy policy to disclose the SMS practices, including the sharing
+  clause. Removing that disclosure may cost the campaign an approval. This was
+  flagged rather than decided. See the pull request description.
+
+  ═══════════════════════════════════════════════════════════════════════════
+  1. REMOVED FROM privacy.html
+  ═══════════════════════════════════════════════════════════════════════════
+-->
+
+<!-- 1a. The lede, in its scoped form. Replaced with a shorter one that does
+     not mention the accountability text. -->
+
+<p class="lede">CONSEQ helps you restrict your own phone. In the current version, nothing you put into the app ever leaves the device you put it on. This policy explains what the app holds, where it holds it, and how the accountability text will work when it is switched on.</p>
+
+<!-- 1b. The whole "About the current version" section, which existed only to
+     scope the SMS. It carried the id `this-version`, the target of every
+     "not switched on yet" link elsewhere in both documents. Restoring any of
+     those links means restoring this section too. -->
+
+<h2 id="this-version">About the current version</h2>
+
+<p><strong>The accountability text is not switched on yet.</strong> The version of CONSEQ in the App Store today restricts your phone and keeps your record of it. It does not ask you for anyone's phone number, it does not send a text message to anyone, and it has no way to send you or your information anywhere. There is no server involved in it at all.</p>
+
+<p>So for anyone using CONSEQ today, this policy has a very short answer: <strong>we collect nothing about you.</strong> Everything below about phone numbers, text messages and what our server keeps describes the accountability text, which is coming in a later version and is clearly marked wherever it appears. We are leaving it here so you can read now what it will do, rather than finding out later.</p>
+
+<p>When the accountability text is switched on, this policy will be updated to say so at the top and the change will be in the app's release notes.</p>
+
+<!-- 1c. The body of "What leaves your phone". The heading itself survives; a
+     one line answer of "Nothing" stands where these five paragraphs were. -->
+
+<p><strong>In the current version: nothing.</strong> The app has no way to send anything anywhere. It never asks you for a phone number, never contacts a server, and never hands anything to anyone else.</p>
+
+<p>The rest of this section describes the accountability text, which is <a href="#this-version">not switched on yet</a>. When it is, two things will leave your phone, both only in service of that one feature.</p>
+
+<p><strong>1. Your first name.</strong> When you invite someone, the app will ask our server for a one time consent link and tell it only the name you want to be called. That name appears on the page your contact opens, so they know who is asking.</p>
+
+<p><strong>2. The message itself.</strong> The text you wrote, plus how many days your run had lasted. Nothing from the list in the previous section is added to it.</p>
+
+<p><strong>Your contact's phone number will not be sent by the app.</strong> You text them the link yourself, from your own phone, the same way you would text them anything else. We never see that message and we are not involved in it. Their number reaches us only if they choose to enter it themselves on the consent page.</p>
+
+<p>What we hold will be passed to <strong>Twilio</strong>, our SMS and RCS provider, who delivers the message. Twilio processes it under their own terms as our service provider. No information has been passed to Twilio or to anyone else by the current version of the app, because the current version has nothing to pass.</p>
+
+<!-- 1d. The `no-sharing` section. This is the compliance text. The `id` was
+     kept on the replacement section so no link anywhere breaks, but the
+     wording below is the wording carriers look for, and it must come back
+     verbatim, not paraphrased. -->
+
+<h2 id="no-sharing">We never share or sell mobile information</h2>
+
+<p><strong>No mobile information, including phone numbers, text messaging originator data, and SMS consent data, is ever shared with or sold to third parties or affiliates for marketing or promotional purposes.</strong> Consent to receive text messages is never shared with anyone.</p>
+
+<p>The only party that ever receives a phone number from us is Twilio, the carrier-facing provider that delivers the message on our behalf. They act solely as our service provider and may not use it for anything else. There are no other recipients, no advertising partners, no data brokers, and nothing is sold to anyone under any circumstances.</p>
+
+<p>This holds whatever version of the app you have. In the current version it holds trivially, because we hold no mobile information at all.</p>
+
+<!-- 1e. Two whole sections, removed outright. -->
+
+<h2>Your contact has to agree first</h2>
+
+<p class="scope">This section describes the accountability text, which is <a href="#this-version">not switched on yet</a>. The current version of the app names no contact and sends nothing to anyone.</p>
+
+<p>We do not text anyone who has not agreed to be texted.</p>
+
+<p>When you choose someone, you send them a link from your own phone. Opening it shows them who is asking, exactly what they would receive, how often, and what it costs, and asks them to enter their own mobile number and tick a box to agree. Nothing is pre-ticked and they can simply close the page.</p>
+
+<p>If they agree, we send that number one message asking them to confirm. Nothing further is ever sent unless they reply <strong>YES</strong>. They can reply <strong>STOP</strong> at any time, which ends it permanently and is enforced by the carrier, not just by us. If they do, CONSEQ tells you and stops being able to send.</p>
+
+<p>We keep a record of that agreement: the number, the exact wording they agreed to, their reply, and when each arrived. We are required to keep it, and it is the only reason we hold it.</p>
+
+<h2>If someone invited you to be their contact</h2>
+
+<p class="scope">Nobody can have been invited by the current version of the app, because it has no invite feature. This section applies to the accountability text, which is <a href="#this-version">not switched on yet</a>, and to anyone who was invited by an earlier test of it.</p>
+
+<p>You are the person this section is about, and you did not install anything.</p>
+
+<p>If you opened an invite link and agreed, we hold: the mobile number you entered, the exact wording you agreed to, the time you submitted it, your IP address and browser identifier at that moment, the reply you sent us, and a record of any message we delivered to you. The IP address and browser identifier are kept for one reason, which is that messaging rules require us to be able to show that consent was genuinely given and by whom. They are never used to profile you, track you across sites, or advertise to you.</p>
+
+<p>We hold nothing else about you. We do not know your name beyond the first name of the person who invited you, we have no other contact details for you, and your number is never used for anything except the one purpose described above.</p>
+
+<p>If you never opened the link, or opened it and closed it, we hold nothing about you at all. We were never told your number.</p>
+
+<p>Reply <strong>STOP</strong> to any message to opt out permanently. Reply <strong>HELP</strong> for information about who is messaging you and why. To have your number erased from our records entirely rather than simply marked opted out, email <a href="mailto:ballast.ttt@gmail.com">ballast.ttt@gmail.com</a> from any address and include the number.</p>
+
+<!-- 1f. The body of "What we keep, and for how long". The heading survives
+     with a one line answer. The retention periods below are the compliance
+     numbers and must come back as they are. -->
+
+<p><strong>From the current version of the app, nothing.</strong> There is no record of you on our server, because the app never sent one.</p>
+
+<p class="scope">The rest of this section describes what we will keep once the accountability text is <a href="#this-version">switched on</a>.</p>
+
+<p>On our server: your contact's number, the wording they agreed to and when they submitted it, their opt-in reply and its timestamp, and a delivery record for each message sent. Consent records are kept while your contact remains opted in and for <strong>24 months</strong> afterwards, because messaging regulations require proof of consent. Message delivery logs are kept for <strong>90 days</strong>. An invite link nobody opens is deleted after 48 hours.</p>
+
+<p>Nothing is ever sold, and mobile information is never shared for marketing. See <a href="#no-sharing">above</a>. There is no advertising, no analytics SDK, and no tracking of any kind in this app.</p>
+
+<!-- 1g. Removed from "Deleting everything". -->
+
+<p>Once the accountability text is <a href="#this-version">switched on</a>, erasing will also remove your contact from the device. To remove what we hold on our server at that point, or to have your contact removed, email <a href="mailto:ballast.ttt@gmail.com">ballast.ttt@gmail.com</a>. Your contact can remove themselves at any time by replying STOP.</p>
+
+<!-- 1h. Removed from "Your rights". The sentence now ends at the erase
+     option. -->
+
+<p>Once the accountability text is switched on, most of it will still be satisfied that way, and for anything left over, email <a href="mailto:ballast.ttt@gmail.com">ballast.ttt@gmail.com</a>.</p>
+
+<!--
+  ═══════════════════════════════════════════════════════════════════════════
+  2. REMOVED FROM terms.html
+
+  ⚠️ Sections 4 and 5 were removed and everything after them was renumbered
+  down by two, so what is now section 4 was section 6. Putting these back
+  means renumbering 4 to 12 back up to 6 to 14. Nothing links to a section by
+  number, so the renumbering is cosmetic, but a document that jumps from 3 to
+  6 is the hole the removal was supposed to avoid.
+  ═══════════════════════════════════════════════════════════════════════════
+-->
+
+<!-- 2a. The lede lost its second clause. -->
+
+<p class="lede">These terms cover your use of the CONSEQ iOS app and the messaging service behind it. Installing or using the app means you accept them. If you don't, don't use it.</p>
+
+<!-- 2b. The whole "What the current version does" section, which carried
+     terms.html's own `this-version` anchor. -->
+
+<h2 id="this-version">What the current version does</h2>
+
+<p><strong>The accountability text is not switched on yet.</strong> The version of CONSEQ in the App Store today restricts your phone and keeps your record of it, and that is all. It does not ask you for anyone's phone number and it does not send a text message to anyone.</p>
+
+<p>The sections below about your accountability contact and about messaging describe how that feature will work when it is switched on. They are marked where they appear. Nothing in them applies to the app you have today, and we have left them in place so you can read now what is coming.</p>
+
+<!-- 2c. Removed from section 1, "What CONSEQ does". -->
+
+<p>In a later version you will also be able to choose one person as an accountability contact, so that if you break those rules, or ask to switch the app off, or remove the restrictions outside the app, a single text message is sent to that person telling them so. That part is <a href="#this-version">not switched on yet</a>.</p>
+
+<!-- 2d. Removed from section 2, "Who can use it". The 18+ sentence above it
+     survives; only these two paragraphs went. -->
+
+<p class="scope">The paragraph below applies once the accountability text is <a href="#this-version">switched on</a>. The current version never asks you for a phone number.</p>
+
+<p>You may only enter a phone number that belongs to a real person you know, who you have a genuine relationship with, and who you reasonably expect will agree to receive these messages. Entering somebody else's number to harass, embarrass, or repeatedly contact them is a misuse of this service and grounds for us blocking you from it.</p>
+
+<!-- 2e. Sections 4 and 5 in full, removed outright. Section 5 is the carrier
+     facing programme disclosure and is compliance text: programme name, opt
+     in, content, frequency, cost, STOP, HELP and the carrier liability line
+     are each required, and each has to come back word for word. -->
+
+<h2>4. Your accountability contact</h2>
+
+<p class="scope">This whole section applies once the accountability text is <a href="#this-version">switched on</a>. In the current version there is no contact to name.</p>
+
+<p>The person you name does not use this app and has agreed to nothing until they say so. Before we deliver anything to them, we send one message asking them to agree, and nothing further is sent unless they reply YES.</p>
+
+<p>You are responsible for who you name. By entering someone's number you confirm that the number is correct, that it belongs to the person you say it does, and that you have a real relationship with them.</p>
+
+<p>Your contact can opt out at any time by replying STOP, and if they do, the app can no longer send on your behalf. We will not override their opt-out, and neither can you.</p>
+
+<h2>5. Messaging terms</h2>
+
+<p class="scope">This whole section applies once the accountability text is <a href="#this-version">switched on</a>. The current version of the app sends no messages, so nobody can be receiving them from it. These are the terms of the program for when it starts, and for anyone who took part in an earlier test of it.</p>
+
+<p><strong>Program:</strong> CONSEQ accountability notifications.</p>
+
+<p><strong>How you opt in:</strong> you receive a single text asking whether you agree to be someone's accountability contact, and you reply <strong>YES</strong>. No further messages are sent unless you do.</p>
+
+<p><strong>What you'll receive:</strong> a short notification when the person who added you reports breaking a commitment they made, asks to disable the app's protections, or removes those protections outside the app.</p>
+
+<p><strong>How often:</strong> a few messages per month at most. There is no fixed schedule. Messages are sent only when one of the events above occurs.</p>
+
+<p><strong>Cost:</strong> CONSEQ does not charge for messages. Message and data rates may apply from your carrier.</p>
+
+<p><strong>To opt out:</strong> reply <strong>STOP</strong> to any message. This is permanent and takes effect immediately.</p>
+
+<p><strong>For help:</strong> reply <strong>HELP</strong> to any message, or email <a href="mailto:ballast.ttt@gmail.com">ballast.ttt@gmail.com</a>.</p>
+
+<p><strong>Carriers:</strong> mobile carriers are not liable for delayed or undelivered messages. Delivery is not supported by every carrier or on every device.</p>
+
+<p>How we handle the data behind all of this is described in our <a href="privacy.html">Privacy Policy</a>.</p>
+
+<!-- 2f. Removed from what was section 6, "What the app cannot promise". The
+     section said "Two limits worth stating plainly" and now says one, and
+     the tamper sentence in the first limit went with it, because tamper
+     detection is switched off in v1 too. Both need restoring together with
+     the wording below. -->
+
+<p>Two limits worth stating plainly, because the app is only honest if you know them.</p>
+
+<p><strong>The restrictions are friction, not a cage.</strong> CONSEQ blocks content using Apple's Screen Time system with your own authorization. You can revoke that authorization in iOS Settings at any time, which clears every restriction the app applied. The app is designed to notice when that happens and to treat it as breaking your own rules, but it cannot prevent it, and it cannot guarantee it will detect every case. Nothing here will stop a determined person from getting around it.</p>
+
+<p><strong>Message delivery is not guaranteed.</strong> Once the accountability text is <a href="#this-version">switched on</a>, messages will depend on your network, our provider, and the recipient's carrier. Any of them can fail or delay a message. We do not guarantee that a message will arrive, or arrive promptly.</p>
+
+<!-- 2g. What was section 7, "Acceptable use", in full. The replacement keeps
+     the section but drops everything about messages. -->
+
+<p>Do not use CONSEQ to send threatening, harassing, or abusive content; to contact anyone who has not agreed to hear from you; to impersonate someone else; or to do anything unlawful. Once the accountability text is <a href="#this-version">switched on</a>, you are responsible for the message text you write, which is delivered as you wrote it.</p>
+
+<p>We may suspend or block access to the messaging service for anyone who misuses it, without notice.</p>
+
+<!-- 2h. Removed from section 9, "Limitation of liability". The clause "a
+     message that was or was not delivered" was dropped from the list. The
+     original sentence opened: "To the fullest extent permitted by law,
+     CONSEQ is not liable for any indirect, incidental, special,
+     consequential, or punitive damages, or for any loss arising from a
+     message that was or was not delivered, a restriction that was or was not
+     applied, or a relapse, however caused." Note that the replacement also
+     rewrote "a relapse" as "a return to the habit you were trying to leave",
+     which is a house style fix and should stay that way. -->
+
+<!-- 2i. Removed from section 10, "Ending it". -->
+
+<p>Once the accountability text is <a href="#this-version">switched on</a>, your contact can also end their side at any time by replying STOP. We may discontinue the service, in which case messages simply stop being sent.</p>
+
+<!-- 2j. Section 14, "Contact", lost its second half. It read: "Questions
+     about these terms, or about a message you received:". -->
+
+<!--
+  ═══════════════════════════════════════════════════════════════════════════
+  3. REMOVED FROM index.html
+  ═══════════════════════════════════════════════════════════════════════════
+-->
+
+<!-- 3a. The scoped paragraph under the lede. -->
+
+<p>A later version will add an accountability text: if you break the rules you set, one text goes to one person you chose, and only if that person agreed to receive it first. That feature is not switched on in the app available today, which sends no messages to anyone.</p>
+
+<!-- 3b. The third item in the Legal list. ⚠️ `opt-in.html` itself was NOT
+     touched and is still live at its own URL. Only this link to it was
+     removed, because a link reading "SMS Opt-In" on the landing page is
+     exactly the kind of visible reference to a feature that is not in the
+     build. If the 10DLC campaign needs the page reachable from the site
+     rather than only by direct URL, put this one line back: it restores the
+     path without restoring any other SMS language. -->
+
+<li><a href="opt-in.html">SMS Opt-In &amp; Messaging Terms</a></li>
+
+<!-- 3c. The "Received a message from CONSEQ?" section in full. -->
+
+<h2>Received a message from CONSEQ?</h2>
+
+<p>Someone who is trying to quit a habit named you as their accountability contact. You'll only hear from us if they break a commitment they made to themselves.</p>
+
+<p>Reply <strong>STOP</strong> to any message to opt out permanently, or <strong>HELP</strong> for information. Message and data rates may apply. You can also email <a href="mailto:ballast.ttt@gmail.com">ballast.ttt@gmail.com</a> to have your number removed from our records entirely.</p>
+
+<!--
+  ═══════════════════════════════════════════════════════════════════════════
+  4. NOT REMOVED, ON PURPOSE
+  ═══════════════════════════════════════════════════════════════════════════
+
+    • `opt-in.html`, in full. It is the 10DLC campaign's evidence and is
+      mid registration. Untouched, still live, still linked from its own
+      footer to privacy.html and terms.html.
+    • `.scope` in style.css. Nothing uses that class any more, so it is dead
+      CSS today. Left in place because every restored paragraph above that
+      carries `class="scope"` needs it back.
+    • Everything true of v1: local storage, no accounts, no advertising, the
+      erase route, the 18+ statement, the crisis line, the contact address,
+      the Apple third party beneficiary terms and the governing law.
+  ═══════════════════════════════════════════════════════════════════════════
+-->
