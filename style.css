@@ -84,6 +84,19 @@ strong { font-weight: 600; }
 
 .note p:last-child { margin-bottom: 0; }
 
+/* Marks a section that describes the accountability text, which is not
+   switched on in the shipping app. Remove these paragraphs and this rule
+   together when it goes live. */
+.scope {
+  background: var(--note-bg);
+  border-left: 3px solid var(--rule);
+  border-radius: 0 8px 8px 0;
+  padding: 0.75rem 1rem;
+  margin: 0 0 1.25rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
 footer {
   margin-top: 4rem;
   padding-top: 1.5rem;
